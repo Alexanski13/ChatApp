@@ -1,42 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Chat Room</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Chat App</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
-  <div class="chat-container">
-
-    <div class="chat-header">
-      <h2>WebSocket Chat</h2>
-    </div>
-
-    <div class="username-section" id="usernameSection">
+  <div class="app-wrapper">
+    <div class="login-bar">
       <div class="username-wrapper">
         <input id="usernameInput" placeholder="Enter username..." />
         <small id="usernameError" class="error-msg"></small>
       </div>
+
+      <input id="roomInput" value="general" />
       <button id="connectBtn">Connect</button>
     </div>
 
+    <div class="chat-container">
 
-    <div class="messages" id="messages"></div>
+      <div class="sidebar">
+        <h3>Users</h3>
+        <ul id="usersList"></ul>
 
-    <div class="input-section">
-      <input id="messageInput" placeholder="Type a message..." disabled />
-      <button id="sendBtn" disabled>Send</button>
+        <h3>Rooms</h3>
+        <ul id="roomsList"></ul>
+      </div>
+
+      <div class="chat-main">
+        <div class="messages" id="messages"></div>
+
+        <div class="input-section">
+          <input id="messageInput" placeholder="Type message..." disabled />
+          <button id="sendBtn" disabled>Send</button>
+        </div>
+      </div>
+
+      <div class="private-chat-panel" id="privateChatPanel">
+        <div class="private-header">
+          <span id="privateChatTitle"></span>
+          <button onclick="closePrivateChat()">X</button>
+        </div>
+
+        <div class="private-messages" id="privateMessages"></div>
+
+        <div class="private-input">
+          <input id="privateMessageInput" placeholder="Type private message..." />
+          <button onclick="sendPrivateMessage()">Send</button>
+        </div>
+      </div>
     </div>
+  </div>
 
+  <div id="connectionStatus" class="connection-status hidden">
+    Disconnected – reconnecting...
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
   <script src="chat.js"></script>
-
 </body>
 
 </html>

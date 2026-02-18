@@ -14,7 +14,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private static final String STOMP_ENDPOINT = "/ws";
     private static final String ALLOWED_ORIGINS = "*";
-    private static final String MESSAGE_BROKER_DESTINATION = "/topic";
+    private static final String MESSAGE_BROKER_DESTINATION_TOPIC = "/topic";
+    private static final String MESSAGE_BROKER_DESTINATION_QUEUE = "/queue";
     private static final String MESSAGE_BROKER_DESTINATION_PREFIX = "/app";
 
     private final UsernameHandshakeInterceptor interceptor;
@@ -32,7 +33,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker(MESSAGE_BROKER_DESTINATION);
+        registry.enableSimpleBroker(MESSAGE_BROKER_DESTINATION_TOPIC, MESSAGE_BROKER_DESTINATION_QUEUE);
         registry.setApplicationDestinationPrefixes(MESSAGE_BROKER_DESTINATION_PREFIX);
     }
 

@@ -1,5 +1,6 @@
 package com.alexanski.chat.interceptor;
 
+import com.alexanski.chat.dto.SimplePrincipal;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -13,30 +14,16 @@ import java.security.Principal;
 @Component
 public class UsernameHandshakeInterceptor implements ChannelInterceptor {
 
-    private static final String USERNAME_HEADER = "username";
-
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
-
         StompHeaderAccessor accessor =
-                MessageHeaderAccessor.getAccessor(
-                        message,
-                        StompHeaderAccessor.class
-                );
+                MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
         if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
+            String username = accessor.getFirstNativeHeader("username");
 
-            String username =
-                    accessor.getFirstNativeHeader(USERNAME_HEADER);
-
-            accessor.setUser(new Principal() {
-                @Override
-                public String getName() {
-                    return username;
-                }
-            });
+            accessor.setUser(new SimplePrincipal(username));
         }
-
         return message;
     }
 }
